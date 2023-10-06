@@ -64,7 +64,7 @@ representative at an online or offline event.
 
 Instances of abusive, harassing, or otherwise unacceptable behavior may be
 reported to the community leaders responsible for enforcement at
-falconpy@crowdstrike.com or https://crowdstrike.ethicspoint.com/.
+https://crowdstrike.ethicspoint.com/.
 
 All complaints will be reviewed and investigated promptly and fairly.
 
@@ -135,5 +135,5 @@ https://www.contributor-covenant.org/translations.
 
 ---
 
-<p align="center"><img src="https://raw.githubusercontent.com/CrowdStrike/falconpy/main/docs/asset/cs-logo-footer.png"><BR/><img width="300px" src="https://raw.githubusercontent.com/CrowdStrike/falconpy/main/docs/asset/alliance_team.png"></P>
+<p align="center"><img src="https://raw.githubusercontent.com/CrowdStrike/Kubernetes-FluentBit-Logging-Falcon-Logscale-Integration/main/docs/asset/cs-logo-footer.png"><BR/><img width="300px" src="https://raw.githubusercontent.com/CrowdStrike/Kubernetes-FluentBit-Logging-Falcon-Logscale-Integration/main/docs/asset/alliance_team.png"></P>
 <h3><P align="center">WE STOP BREACHES</P></h3>
