@@ -10,7 +10,7 @@ Forward Kubernetes logs and system metrics to Falcon LogScale with the fluent-bi
 
 This integration provides instructions on how to configure the Fluent-Bit log shipper to forward Kubernetes cluster logs and node metrics to Falcon LogScale for ingestion.
 
-This integration was created as a companion to the LogScale [Kubernetes Logging Package](https://github.com/CrowdStrike/logscale-community-content/tree/dev/Log-Sources/Kubernetes/Kubernetes-FluentBit) which is available on the [CrowdStrike GitHub](https://github.com/CrowdStrike) repository.
+This integration was created as a companion to the LogScale [Kubernetes Logging Package](https://github.com/CrowdStrike/logscale-community-content/tree/main/Log-Sources/Kubernetes/Fluent-Bit-Logging) which is available on the [CrowdStrike Lgscale Community Content GitHub](https://github.com/CrowdStrike/logscale-community-content) repository.
 
 *note: The Kubernetes Logging package dashboards rely on specific enrichments added by this integration.*
 
