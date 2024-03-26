@@ -71,38 +71,50 @@ Logs collected by the DaemonSet are automatic enriched with a set of Kubernetes 
 
 
 ## Installation and Setup
-### Install the Kubernetes Logging LogScale package
-[Kubernetes Logging Package](https://github.com/CrowdStrike/logscale-community-content/tree/dev/Log-Sources/Kubernetes/Kubernetes-FluentBit) 
+
+### Install the Kubernetes Logging LogScale package 
+[Kubernetes Logging Package](https://github.com/CrowdStrike/logscale-community-content/tree/main/Log-Sources/Kubernetes/Fluent-Bit-Logging) 
 *note: the `fluentbit` parser is included in the package*
 
-
-#### Install Fluent-Bit as a System Service
+### (system) Install Fluent-Bit as a System Service
 *note: this integration assumes Ubuntu Linux as the target platform*
-##### [Apt Install Fluent-Bit](https://docs.fluentbit.io/manual/installation/linux/ubuntu)
+#### Ubuntu APT install
+[Apt Install Fluent-Bit](https://docs.fluentbit.io/manual/installation/linux/ubuntu)
 `sudo apt-get install fluent-bit`
 
-##### Configure Fluent-Bit
+#### Configure Fluent-Bit
+
 Prepare the `/etc/fluent-bit/fluent-bit.conf` file.  
-Use the `fluent-bit.conf` template file included with this integration to source the `[INPUT]`, `[FILTER]`, and `[OUTPUT]` stanzas.
-Update the `[OUTPUT]` stanza with your LogScale ingest credentials.
-*note: a fluent-bit timestamp is added to some metrics events that lack native timestamping.*
-##### Start Fluent-Bit Service
-`sudo systemctl start fluent-bit`
+Use the `fluent-bit.conf` template file included with this integration to source the `[INPUT]`, `[FILTER]`, and `[OUTPUT]` stanzas.  
+Update the `[OUTPUT]` stanza with your LogScale ingest credentials.  
+*note: a fluent-bit timestamp is added to some metrics events that lack native timestamping.*  
 
-Verify that events are being ingested to the repository.
+#### Start Fluent-Bit Service
 
-#### Install Fluent-Bit as a Kubernetes DaemonSet
-#####Create a Logging namespace
-example: `kubectl create namespace logging`
-#####Prepare the Helm Chart
-Follow the instructions in the [guide to installing Fluent-Bit via Helm](https://fluentbit.io/blog/2020/12/29/5-minute-guide-to-deploying-fluent-bit-on-kubernetes/) to install the base Fluent-Bit DaemonSet.
+`sudo systemctl start fluent-bit`  
+Verify that events are being ingested to the repository.  
 
-###### Configure the Fluent-Bit Helm Chart
+### (k8s) Install Fluent-Bit as a Kubernetes DaemonSet
+
+Use the upstream fluentbit opensource distribution to install a daemonset through a helm chart. 
+
+#### Create a Logging namespace
+
+`kubectl create namespace logging`
+
+#### Prepare the Helm Chart
+
+Follow the instructions in the [guide to installing Fluent-Bit via Helm](https://fluentbit.io/blog/2020/12/29/5-minute-guide-to-deploying-fluent-bit-on-kubernetes/) to install the base Fluent-Bit DaemonSet from the public helm chart https://github.com/fluent/helm-charts/ 
+
+##### Configure the Fluent-Bit Helm Chart
+
 ###### ConfigMap
+
 Use the included `fluent-bit.conf` template file to provide the stanzas for `[INPUT]`, `[FILTER]`, and `[OUTPUT]`.
 Update the `[OUTPUT]` stanza with your LogScale ingest credentials.
 
 ###### Tolerations
+
 Add a toleration to the DaemonSet, to allow Fluent-Bit to be scheduled on control-plane master nodes:
 ```
       tolerations:
@@ -115,7 +127,9 @@ Add a toleration to the DaemonSet, to allow Fluent-Bit to be scheduled on contro
 ```
 
 ###### Auditing
+
 Update the fluent-bit ClusterRole yaml to allow access to `events` resources:
+
 ```
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
@@ -137,6 +151,7 @@ rules:
 ```
 
 *note: without `events` resource access, the following error will occur:*
+
 ```
 {"log":"[2023/XX/XX XX:XX:XX] [error] [input:kubernetes_events:kubernetes_events.4] http_status=403:\n","stream":"stderr","time":"2023-XX-XXTXX:XX:XX.XXXXXXXXXZ"}
 {"log":"{\"kind\":\"Status\",\"apiVersion\":\"v1\",\"metadata\":{},\"status\":\"Failure\",\"message\":\"events is forbidden: User \\\"system:serviceaccount:logging:fluent-bit\\\" cannot list resource \\\"events\\\" in API group \\\"\\\" at the cluster scope\",\"reason\":\"Forbidden\",\"details\":{\"kind\":\"events\"},\"code\":403}\n","stream":"stderr","time":"2023-XX-XXTXX:XX:XX.XXXXXXXXZ"}
